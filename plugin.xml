@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.commands">
+    <command name="Start Abap Action Chain"
+        defaultHandler="abapactionchain.commands.ActionsBeforeActivation"
+        description="Start Abap Actions"
+        categoryId="org.eclipse.jdt.ui.category.source"
+        id="abapactionchain.Actions">
+   </command>
+</extension>
+
+
+  <extension
+         point="com.sap.adt.activation.ui.activationSuccessListener">
+      <onActivationSuccess
+            class="abapactionchain.commands.ActionsAfterActivation">
+      </onActivationSuccess>
+   </extension> 
+   
+   
+   
+   
+      <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="com.sap.adt.views"
+            class="abapactionchain.views.View"
+            icon="platform:/plugin/org.eclipse.ui.views/icons/full/eview16/outline_co.png"
+            id="abapactionchain.views"
+            inject="false"
+            name="Abap Action Chain"
+            restorable="true">
+      </view>
+   </extension>
+   
+ 
+   <extension
+         point="com.sap.adt.destinations.logonListeners">
+      <listener
+            class="abapactionchain.views.LogonListenerHandler">
+      </listener>
+   </extension>
+   
+   
+   
+   
+   
+      <extension
+         point="com.sap.adt.tools.abapsource.ui.processAfterSourcePageLoaded">
+      <class
+            name="abapactionchain.views.AbapPageLoadListener">
+      </class>
+   </extension>
+   
+   
+   
+   
+   
+      <extension
+         point="com.sap.adt.activation.ui.activationSuccessListener">
+      <onActivationSuccess
+            class="abapactionchain.views.ActivationSuccessListenerHandler">
+      </onActivationSuccess>
+   </extension>
+    
+    
+     
+
+</plugin>
