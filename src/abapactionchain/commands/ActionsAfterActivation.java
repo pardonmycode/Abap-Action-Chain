@@ -2,12 +2,18 @@ package abapactionchain.commands;
 
 import java.util.List;
 
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.ui.internal.handlers.LegacyHandlerService;
 
 import com.sap.adt.activation.ui.IActivationSuccessListener;
 import com.sap.adt.tools.core.IAdtObjectReference;
 
+import abapactionchain.utils.ProjectUtility;
 import abapactionchain.views.View;
 
 
@@ -26,16 +32,16 @@ boolean debug = true;
 					System.out.println("adts: "+ adts );
 				}
 				if("Run Test" == btn.getText()) {
-					ActionsBeforeActivation.runTest();	
+					runTest();	
 				}
 
 				if("Run Test with coverage" == btn.getText()) {
-					ActionsBeforeActivation.runTestWithCoverage();
+					runTestWithCoverage();
 					
 				}
 
 				if("Run Test with adt checks" == btn.getText()) {
-					ActionsBeforeActivation.runTestWithAdt();	
+					runTestWithAdt();	
 				}
 				
 			}
@@ -47,4 +53,63 @@ boolean debug = true;
 		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void runTest() {
+		System.out.println( "Run tests" );
+
+		try {	
+			LegacyHandlerService srv = (LegacyHandlerService) ProjectUtility.service.executeCommand("com.sap.adt.tool.abap.unit.launchShortcut.run", null);
+			
+
+		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
+			e.printStackTrace();
+		}
+		ActionsBeforeActivation.sleep(500);
+
+	}
+	public static void runTestWithCoverage() {
+		System.out.println( "Run tests with coverage" );
+
+		try {
+			ProjectUtility.service.executeCommand("com.sap.adt.tool.abap.unit.launchShortcutWithCoverage.coverage", null);
+		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
+			e.printStackTrace();
+		}
+		ActionsBeforeActivation.sleep(500);
+
+	}		
+	
+	public static void runTestWithAdt() {
+		System.out.println( "Run tests with adt checks" );
+
+		try {
+			ProjectUtility.service.executeCommand("com.sap.adt.atc.ui.launchShortcut.run", null);
+		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
+			e.printStackTrace();
+		}
+		ActionsBeforeActivation.sleep(500);
+
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -228,49 +228,13 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 			} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 				e.printStackTrace();
 			}
-//			sleep(500);
+			sleep(500);
 
 		}
 	
 		
 		
-		
-		public static void runTest() {
-			System.out.println( "Run tests" );
 
-			try {	
-				LegacyHandlerService srv = (LegacyHandlerService) ProjectUtility.service.executeCommand("com.sap.adt.tool.abap.unit.launchShortcut.run", null);
-				
-
-			} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
-				e.printStackTrace();
-			}
-			sleep(500);
-
-		}
-		public static void runTestWithCoverage() {
-			System.out.println( "Run tests with coverage" );
-
-			try {
-				ProjectUtility.service.executeCommand("com.sap.adt.tool.abap.unit.launchShortcutWithCoverage.coverage", null);
-			} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
-				e.printStackTrace();
-			}
-			sleep(500);
-
-		}		
-		
-		public static void runTestWithAdt() {
-			System.out.println( "Run tests with adt checks" );
-
-			try {
-				ProjectUtility.service.executeCommand("com.sap.adt.atc.ui.launchShortcut.run", null);
-			} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
-				e.printStackTrace();
-			}
-			sleep(500);
-
-		}	
 		
 		public static void sleep(int milliseconds) {
 			try {
