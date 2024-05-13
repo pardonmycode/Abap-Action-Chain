@@ -199,8 +199,13 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		
 	
 	public static IAbapSourcePage getSourcPage() {
-		IAdtFormEditor edit = linkedObject.getLinkedEditor();
+		IAdtFormEditor edit = getEditor();
 		IAbapSourcePage sourcePage = edit.getAdapter(AbapSourcePage.class);
+		if(sourcePage == null) {
+			view.reload();
+			edit = getEditor();
+			sourcePage = edit.getAdapter(AbapSourcePage.class);
+		}
 		return sourcePage;
 	}
 
