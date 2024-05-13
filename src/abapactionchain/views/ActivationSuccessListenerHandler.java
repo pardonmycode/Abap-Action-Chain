@@ -17,7 +17,7 @@ public class ActivationSuccessListenerHandler implements IActivationSuccessListe
 	public void onActivationSuccess(List<IAdtObjectReference> adtObject, IProject project) {
 		if (View.view != null) {
 			
-			View.view.reload(); 
+			View.view.reload();  
 		}
 
 	}
