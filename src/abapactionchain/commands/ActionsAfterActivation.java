@@ -27,10 +27,7 @@ boolean debug = true;
 				if (!btn.getSelection()) {
 					continue;
 				}
-				
-				if (debug) {
-					System.out.println("adts: "+ adts );
-				}
+			
 				if("Run Test" == btn.getText()) {
 					runTest();	
 				}
