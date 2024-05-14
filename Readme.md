@@ -32,8 +32,8 @@ In Eclipse:
 In Eclipse: 
 > 
 > Create new empty Feature Project 
-> go to feature.xml under the Tab "Included Plug-ins" and
-> include your newly created Plug-in Project "AbapPluginName" in the Feature Project 
+> go to feature.xml  
+> include your newly created Plug-in Project "AbapPluginName" under the Tab "Included Plug-ins" 
 
 > click in upper right corner "Export deployable Plug-ins.."
 > Now you should have a jar-Files( content.jar, artifacts.jar etc..), 
