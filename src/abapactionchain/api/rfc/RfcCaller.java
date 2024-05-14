@@ -15,7 +15,6 @@ import org.eclipse.ui.PlatformUI;
 import abapactionchain.Activator;
 
 import abapactionchain.utils.AbapRelease;
-import abapactionchain.utils.BackendComponentVersion;
 import abapactionchain.utils.ProjectUtility;
 import abapactionchain.views.LinkedObject;
 import abapactionchain.views.View;

@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
@@ -40,7 +41,7 @@ import abapactionchain.views.View;
 
 @SuppressWarnings({ "restriction", "unused" })
 public class ProjectUtility {
-	static NullProgressMonitor pgmoni;
+	public static IProgressMonitor pgmoni;
 	public static IHandlerService service;
 	public static IProject getActiveAdtProject() {
 		try {
@@ -48,7 +49,7 @@ public class ProjectUtility {
 			IWorkbenchWindow window = page.getWorkbenchWindow();
 			ISelection adtSelection = window.getSelectionService().getSelection();
 			IProject project 		= ProjectUtil.getActiveAdtCoreProject(adtSelection, null, null, null);
-			service = window.getService(IHandlerService.class);
+			service 				= window.getService(IHandlerService.class);
 			
 			return project;
 		} catch (Exception e) {
@@ -166,20 +167,20 @@ public class ProjectUtility {
 		IDestinationData destinationData = adtProject.getDestinationData();
 		try {
 			if (!password.isEmpty()) {
-				IAuthenticationToken authenticationToken = new AuthenticationToken();
+				if(pgmoni == null) {
+					pgmoni = new NullProgressMonitor();
+				}
 
+				IAuthenticationToken authenticationToken = new AuthenticationToken();
 				authenticationToken.setPassword(password);
-				pgmoni = new NullProgressMonitor();
+				
 				AdtLogonServiceFactory.createLogonService().ensureLoggedOn(destinationData, authenticationToken,
 						 pgmoni);
-
-
 			}
 		} catch (Exception e) {
 			ensureLoggedOn(project);
 		}
 	}
-
 
 	public static void openObject(final IProject project, final IAdtObjectReference adtObjectRef) {
 		AdtNavigationServiceFactory.createNavigationService().navigate(project, adtObjectRef, true);

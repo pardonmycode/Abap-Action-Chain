@@ -22,6 +22,7 @@ public class ActionsAfterActivation implements IActivationSuccessListener {
 boolean debug = true;
 	@Override
 	public void onActivationSuccess(List<IAdtObjectReference> adts, IProject arg1) {
+		View.view.reload();  
 		try {
 			for(Button btn : View.ButtonsList) {
 				if (!btn.getSelection()) {

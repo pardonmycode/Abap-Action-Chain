@@ -8,6 +8,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import com.sap.adt.destinations.logon.notification.ILoggedOnEvent;
 import com.sap.adt.destinations.logon.notification.ILogonListener;
 
+import abapactionchain.utils.ProjectUtility;
+
 public class LogonListenerHandler implements ILogonListener {
 	private static final List<String> destinationListenerInfo = new ArrayList<>();
 
@@ -16,6 +18,7 @@ public class LogonListenerHandler implements ILogonListener {
 		String destId = loggedOnEvent.getDestinationData().getId();
 		if (destinationListenerInfo.indexOf(destId) == -1) {
 			System.out.println("LoggedOnEvent: " + destId);
+			ProjectUtility.pgmoni = progress;
 			destinationListenerInfo.add(destId);
 			AbapPageLoadListener.addListener(new AbapPageLoadListenerHandler(destId));
 		}
