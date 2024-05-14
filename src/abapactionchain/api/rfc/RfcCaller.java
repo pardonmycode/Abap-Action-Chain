@@ -36,12 +36,12 @@ import com.sap.adt.compatibility.discovery.AdtDiscoveryFactory;
 import com.sap.adt.compatibility.discovery.IAdtDiscovery;
 import com.sap.adt.compatibility.discovery.IAdtDiscoveryCollectionMember;
 import com.sap.adt.tools.abapsource.ui.AbapSourceUi;
-import com.sap.adt.tools.abapsource.ui.IAbapSourceUi;
-import com.sap.adt.tools.abapsource.ui.sources.IAbapSourceScannerServices;
-import com.sap.adt.tools.abapsource.ui.sources.IAbapSourceScannerServices.Token;
+import com.sap.adt.tools.abapsource.ui.IAbapSourceUi; 
+
 import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourcePage;
 import com.sap.adt.tools.abapsource.ui.sources.editors.IAbapSourcePage;
-import com.sap.adt.tools.core.IAdtObjectReference;
+import com.sap.adt.tools.core.model.adtcore.IAdtObject;
+import com.sap.adt.tools.core.model.adtcore.IAdtObjectReference; 
 import com.sap.adt.tools.core.ui.editors.IAdtFormEditor;
 import com.sap.adt.activation.IActivationServiceFactory;
 import com.sap.adt.activation.AdtActivationPlugin;
@@ -50,6 +50,7 @@ import com.sap.adt.activation.IActivationServiceFactory;
 import com.sap.adt.activation.model.inactiveObjects.IInactiveCtsObject;
 import com.sap.adt.activation.model.inactiveObjects.IInactiveCtsObjectList;
 import com.sap.adt.destinations.logon.AdtLogonServiceFactory;
+import com.sap.adt.tools.core.ui.*;
 public class RfcCaller  {
 	
 
@@ -61,21 +62,30 @@ static boolean debug = true;
 		RfcCaller.activeEditor =  activeEditor2;
 	}
 	public static void test2() {
-		
-	IFile file = View.getSourcPage(). getFile();
+	
+	IFile file = View.getSourcPage().getFile(); 
 	URI uri = URI.create(file.getFullPath().toString());
 
 	String destinationId = ProjectUtility.getDestinationID(View.linkedObject.getProject());
 	IAdtFormEditor  formEditor = View.getEditor();
-	com.sap.adt.tools.core.model.adtcore.IAdtObjectReference ref = formEditor.getModel().getContainerRef();
+	IAdtObject model = formEditor.getModel();
+	IAdtObjectReference ref = model.getContainerRef();
 	
-
+	uri = URI.create(ref.getUri());
+	uri = URI.create(file.getFullPath().toString());
+	
 	IRestResourceFactory restResourceFactory = AdtRestResourceFactory.createRestResourceFactory();
 	IRestResource flightResource = restResourceFactory.createResourceWithStatelessSession(uri, destinationId);
 
 	
+	try {
+		JCoDestination destination 	= JCoDestinationManager.getDestination(destinationId);
+		destination.getRepository().getRequest(destinationId);
+	} catch (JCoException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	
-
 	
 	
 	
@@ -95,7 +105,7 @@ static boolean debug = true;
 		System.out.println( ref );
 		System.out.println( uri );
 		System.out.println( restResourceFactory );
-		System.out.println( flightResource );
+		System.out.println( model );
 
 		System.out.println( "end" );
 	}
