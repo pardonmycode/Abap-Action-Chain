@@ -122,7 +122,7 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 						if("Use Abap Cleaner" == btn.getText()) {
 							useAbapCleaner();
 //							RfcCaller.test();
-							RfcCaller.test2();
+//							RfcCaller.test2();
 							
 						}
 						if ("Save current File" == btn.getText() ) {
