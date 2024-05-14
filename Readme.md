@@ -17,16 +17,28 @@ https://pardonmycode.github.io/Abap-Action-Chain/pluginSite/
 
 git clone https://github.com/pardonmycode/Abap-Action-Chain
 
+### Step 1
 In Eclipse: 
 >	Go to File -> New -> Other -> Plug-in Project 
 	
 >	In the Plug-in creation menu:
+>   Project name: AbapPluginName
 >		uncheck "Use default location" 
 >		and set the Location to the "git clone"-Path and Finish.
 	
-> go to pulgin.xml and click in upper right corner "Export deployable Plug-ins.."
-> Now you should have a jar-File, 
-> that can be install via Help->Install New Software -> Add -> Archive
+ 
+
+### Step 2
+In Eclipse: 
+> 
+> Create new empty Feature Project 
+> go to feature.xml under the Tab "Included Plug-ins" and
+> include your newly created Plug-in Project "AbapPluginName" in the Feature Project 
+
+> click in upper right corner "Export deployable Plug-ins.."
+> Now you should have a jar-Files( content.jar, artifacts.jar etc..), 
+> this location can be install via Help->Install New Software -> Add -> Local
+
 
 
 
