@@ -28,11 +28,9 @@ public class CommandListener implements IExecutionListener {
 
 		switch (commandId) {
 		case "org.eclipse.ui.file.saveAll": {
-			//TODO save?
 			}
 		
 		case "org.eclipse.ui.file.save": {
-				System.out.println( "Save file from Command Listener" );
 				ActionsBeforeActivation.runActionChain(commandId);	
 			}
 		}

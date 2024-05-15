@@ -27,7 +27,6 @@ In the Plug-in creation menu:
 >		uncheck "Use default location" 
 >		and set the Location to the "git clone"-Path and Finish.
 	
- 
 
 ### Step 2
 In Eclipse: 

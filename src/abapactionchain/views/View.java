@@ -186,7 +186,6 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 	@Optional
 	public void setSelection(@Named(IServiceConstants.ACTIVE_SELECTION) Object[] selectedObjects) {
 
-		// Test if label exists (inject methods are called before PostConstruct)
 		if (myLabelInView != null)
 			myLabelInView.setText("This is a multiple selection of " + selectedObjects.length + " objects");
 	}
@@ -223,8 +222,6 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
     	for (String text : btn_str_list ) {
 				Button mybtn = new Button(container, SWT.CHECK);
 				 mybtn.setText(text);
-//				 mybtn.setLocation(0, 20);
-//				 mybtn.setBounds(0, 0, 10, 10);
 				 mybtn.addSelectionListener(new SelectionAdapter() {
 				        @Override
 				        public void widgetSelected(SelectionEvent event) {
@@ -247,7 +244,6 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 			}
 			linkedObject = ProjectUtility.getObjectFromEditor(activeEditor);
 			if (linkedObject == null || linkedObject.isEmpty()) {
-				// if (activeEditor.)
 				update();
 				return;
 			}

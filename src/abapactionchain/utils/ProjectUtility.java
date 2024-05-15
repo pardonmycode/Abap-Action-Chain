@@ -39,7 +39,7 @@ import abapactionchain.views.LinkedObject;
 import abapactionchain.views.View;
 
 
-@SuppressWarnings({ "restriction", "unused" })
+@SuppressWarnings({ "restriction" })
 public class ProjectUtility {
 	public static IProgressMonitor pgmoni;
 	public static IHandlerService service;

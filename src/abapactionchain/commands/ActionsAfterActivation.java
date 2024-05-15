@@ -28,7 +28,7 @@ boolean debug = true;
 				if (!btn.getSelection()) {
 					continue;
 				}
-			
+				
 				if("Run Test" == btn.getText()) {
 					runTest();	
 				}

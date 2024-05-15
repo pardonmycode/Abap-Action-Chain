@@ -8,25 +8,14 @@ import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.ui.internal.handlers.LegacyHandlerService;
 import org.eclipse.ui.progress.UIJob;
 
-import com.sap.adt.activation.AdtActivationPlugin;
-import com.sap.adt.activation.IActivationService;
-import com.sap.adt.activation.IActivationServiceFactory;
-import com.sap.adt.activation.model.inactiveObjects.IInactiveCtsObjectList;
-import com.sap.adt.activation.ui.IActivationSuccessListener;
-import com.sap.adt.sapgui.ui.internal.GuiURLStreamHandlerService;
 import com.sap.adt.tools.abapsource.ui.sources.editors.IAbapSourcePage;
-import com.sap.adt.tools.core.IAdtObjectReference;
-
-import abapactionchain.api.rfc.RfcCaller;
 import abapactionchain.utils.ProjectUtility;
 import abapactionchain.views.View;
 
@@ -115,14 +104,9 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 							continue;
 						}
 						
-//						if ( !( map_func_afterCommands.get(btn.getText()).contains(after_commandId)) ){
-//							continue;
-//						}
 						
 						if("Use Abap Cleaner" == btn.getText()) {
 							useAbapCleaner();
-//							RfcCaller.test();
-//							RfcCaller.test2();
 							
 						}
 						if ("Save current File" == btn.getText() ) {
@@ -137,20 +121,6 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 						if("Activate all files" == btn.getText()) {
 							activateAllFiles();
 						}
-//
-//						if("Run Test" == btn.getText()) {
-//							runTest();	
-//						}
-//
-//						if("Run Test with coverage" == btn.getText()) {
-//							runTestWithCoverage();
-//							
-//						}
-//
-//						if("Run Test with adt checks" == btn.getText()) {
-//							runTestWithAdt();	
-//						}
-
 						
 					}
 
@@ -195,16 +165,6 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 	}
 
 	public static void activatFile(IProgressMonitor monitor ) {
-			System.out.println( "Start activatFile" );
-
-
-//			final IActivationServiceFactory activationServiceFactory = AdtActivationPlugin.getDefault().getActivationServiceFactory();
-//			final IActivationService activationService = activationServiceFactory
-//					.createActivationService(ProjectUtility.getActiveAdtProject().getName());
-//			final IInactiveCtsObjectList newInactiveCtsObjectList = activationService
-//					.getInactiveCtsObjects(monitor);
-//			
-			
 			try {
 				ProjectUtility.service.executeCommand("com.sap.adt.activation.ui.command.singleActivation", null);
 			} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
