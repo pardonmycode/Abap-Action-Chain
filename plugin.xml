@@ -55,18 +55,6 @@
       </class>
    </extension>
    
-   
-   
-   
-   
-      <extension
-         point="com.sap.adt.activation.ui.activationSuccessListener">
-      <onActivationSuccess
-            class="abapactionchain.views.ActivationSuccessListenerHandler">
-      </onActivationSuccess>
-   </extension>
-    
-    
      
 
 </plugin>
