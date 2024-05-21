@@ -4,7 +4,7 @@
       <category name="Abap Extension"/>
    </feature>
    
-   <feature url="features/AbapActionChainPlugin_1.0.0.202405161122.jar" id="AbapActionChainFeature" version="1.0.0.202405161122">
+   <feature url="features/AbapActionChainPlugin_1.0.0.202405161122.jar" id="AbapActionChainFeature.feature.group" version="1.0.0.202405161122">
       <category name="Abap Extension"/>
    </feature>
    
