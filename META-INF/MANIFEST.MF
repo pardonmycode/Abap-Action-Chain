@@ -4,24 +4,20 @@ Bundle-Name: AbapActionChain
 Bundle-SymbolicName: AbapActionChain;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: abapactionchain.Activator
-Require-Bundle: com.sap.adt.communication.ui;bundle-version="3.42.0",
- com.sap.adt.activation.ui;bundle-version="3.42.0",
- com.sap.adt.sapgui.ui;bundle-version="3.42.0",
- com.sap.adt.tools.abapsource;bundle-version="3.42.0",
+Require-Bundle: com.sap.adt.activation.ui;bundle-version="3.42.0",
  com.sap.adt.destinations;bundle-version="3.42.0",
  com.sap.adt.communication;bundle-version="3.42.0",
  com.sap.adt.destinations.ui;bundle-version="3.42.0",
  com.sap.adt.util.ui;bundle-version="3.42.0",
  com.sap.adt.compatibility;bundle-version="3.42.0",
- org.eclipse.sdk;bundle-version="4.32.0",
- org.eclipse.jface,
+ org.eclipse.jface;bundle-version="3.34.0",
+ com.sap.adt.sapgui.ui;bundle-version="3.42.0",
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.di,
  org.eclipse.e4.ui.services,
- org.eclipse.e4.core.di.annotations,
+ org.eclipse.e4.core.di.annotations;bundle-version="1.8.400",
  org.eclipse.core.runtime,
- org.eclipse.ui.workbench;bundle-version="3.132.0",
- org.eclipse.core.resources.semantic;bundle-version="0.7.0"
+ org.eclipse.ui.workbench;bundle-version="3.132.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: AbapActionChain
 Import-Package: com.sap.adt.activation,
@@ -32,23 +28,23 @@ Import-Package: com.sap.adt.activation,
  com.sap.adt.tools.abapsource,
  com.sap.adt.tools.abapsource.ui,
  com.sap.adt.tools.abapsource.ui.annotation,
+ com.sap.adt.tools.abapsource.ui.sources,
  com.sap.adt.tools.abapsource.ui.sources.editors,
  com.sap.adt.tools.core,
  com.sap.adt.tools.core.model.adtcore,
  com.sap.adt.tools.core.model.adtcore.impl,
  com.sap.adt.tools.core.project,
  com.sap.adt.tools.core.ui,
- com.sap.adt.tools.core.ui.abaplog,
  com.sap.adt.tools.core.ui.dialogs,
  com.sap.adt.tools.core.ui.editors,
  com.sap.adt.tools.core.ui.navigation,
  com.sap.adt.tools.core.wbtyperegistry,
  com.sap.conn.jco,
- jakarta.annotation;version="[2.1.0,3.0.0)",
- jakarta.inject;version="[2.0.0,3.0.0)",
+ jakarta.annotation;version="2.1.0",
+ jakarta.inject;version="2.0.0",
  org.eclipse.core.resources,
  org.eclipse.ui,
  org.eclipse.ui.progress,
  org.eclipse.ui.texteditor,
- org.osgi.framework;version="[1.10.0,2.0.0)"
+ org.osgi.framework;version="1.10.0"
 Bundle-ActivationPolicy: lazy

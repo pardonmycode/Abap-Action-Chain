@@ -72,9 +72,9 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		{
 			add("Use Abap Cleaner");
 			add("Save current file");
-			add("Save all files");
+//			add("Save all files");
 			add("Activate current File");
-			add("Activate all files");
+//			add("Activate all files");
 			add("Run Test");
 			add("Run Test with coverage");
 			add("Run Test with adt checks");

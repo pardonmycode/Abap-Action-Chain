@@ -14,11 +14,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.ui.internal.handlers.LegacyHandlerService;
 import org.eclipse.ui.progress.UIJob;
-
 import com.sap.adt.tools.abapsource.ui.sources.editors.IAbapSourcePage;
+import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourcePage;
 import abapactionchain.utils.ProjectUtility;
 import abapactionchain.views.View;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +34,10 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 		public static final long serialVersionUID = 12L;
 		{
 			add("org.eclipse.ui.file.save");
-			add("org.eclipse.ui.file.saveAll");
+//			add("org.eclipse.ui.file.saveAll");
 			add("com.sap.adt.abapcleaner.cleanup.automatic");
 			add("com.sap.adt.activation.ui.command.singleActivation");
-			add("com.sap.adt.activation.ui.command.multiActivation");
+//			add("com.sap.adt.activation.ui.command.multiActivation");
 			add("com.sap.adt.tool.abap.unit.launchShortcut.run");
 			add("com.sap.adt.tool.abap.unit.launchShortcutWithCoverage.coverage");
 			add("com.sap.adt.atc.ui.launchShortcut.run");
@@ -143,12 +142,12 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			e.printStackTrace();
 		}
-			sleep(100);
+			sleep(100); 
 	}
 
 	public static void saveCurrentFile(IAbapSourcePage sourcepage, IProgressMonitor monitor) {
 			System.out.println( "Start save currentFile" );
-			sourcepage.doSave(monitor);   
+			sourcepage.doSave(monitor);      
 			sleep(100);
 	}
 	
