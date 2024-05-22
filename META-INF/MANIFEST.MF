@@ -14,7 +14,6 @@ Require-Bundle: com.sap.adt.activation.ui,
  org.eclipse.jface,
  org.eclipse.e4.ui.di,
  org.eclipse.e4.ui.services,
- org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.core.di.annotations,
  org.eclipse.ui.workbench,
  org.eclipse.core.runtime
