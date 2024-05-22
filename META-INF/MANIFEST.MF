@@ -6,8 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: abapactionchain.Activator
 Require-Bundle: com.sap.adt.activation.ui;bundle-version="3.42.0",
  com.sap.adt.destinations;bundle-version="3.42.0",
- com.sap.adt.communication;bundle-version="3.42.0",
  com.sap.adt.destinations.ui;bundle-version="3.42.0",
+ com.sap.adt.communication;bundle-version="3.42.0",
  com.sap.adt.util.ui;bundle-version="3.42.0",
  com.sap.adt.compatibility;bundle-version="3.42.0",
  org.eclipse.jface;bundle-version="3.34.0",

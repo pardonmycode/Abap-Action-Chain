@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/AbapActionChainPlugin_1.0.0.202405211619.jar" id="AbapActionChainPlugin" version="1.0.0.202405211619">
+   <feature url="features/AbapActionChainPlugin_1.0.0.202405220610.jar" id="AbapActionChainPlugin" version="1.0.0.202405220610">
       <category name="Abap Extension"/>
    </feature>
    <category-def name="Abap Extension" label="Abap Extension"/>
