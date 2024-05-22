@@ -17,7 +17,6 @@ Require-Bundle: com.sap.adt.activation.ui,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.core.di.annotations,
  org.eclipse.ui.workbench,
- org.eclipse.swt.win32.win32.x86_64.source,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: AbapActionChain
