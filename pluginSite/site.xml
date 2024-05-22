@@ -3,7 +3,7 @@
    <description name="Abap-Action-Chain" url="https://pardonmycode.github.io/Abap-Action-Chain/pluginSite/">
       Abap Action Chain is a powerful Eclipse plugin designed to streamline ABAP development by enabling users to manage chains of actions. With this plugin, developers can automate repetitive tasks throughout their ABAP projects.
    </description>
-   <feature url="features/AbapActionChainPlugin_1.0.0.202405220839.jar" id="AbapActionChainPlugin" version="1.0.0.202405220839">
+   <feature url="features/AbapActionChainPlugin_1.0.0.202405220842.jar" id="AbapActionChainPlugin" version="1.0.0.202405220842">
       <category name="Abap Extension"/>
    </feature>
    <category-def name="Abap Extension" label="Abap Extension"/>
