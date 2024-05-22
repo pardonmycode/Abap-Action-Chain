@@ -48,3 +48,7 @@ Import-Package: com.sap.adt.activation,
  org.eclipse.ui.texteditor,
  org.osgi.framework;version="1.10.0"
 Bundle-ActivationPolicy: lazy
+Export-Package: abapactionchain,
+ abapactionchain.commands,
+ abapactionchain.utils,
+ abapactionchain.views
