@@ -38,8 +38,8 @@ boolean debug = true;
 					
 				}
 
-				if("Run Test with adt checks" == btn.getText()) {
-					runTestWithAdt();	
+				if("Run Test with ATC checks" == btn.getText()) {
+					runTestWithAtc();	
 				}
 				
 			}
@@ -69,7 +69,7 @@ boolean debug = true;
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			e.printStackTrace();
 		}
-		ActionsBeforeActivation.sleep(500);
+		ActionsBeforeActivation.sleep(100);
 
 	}
 	public static void runTestWithCoverage() {
@@ -80,19 +80,19 @@ boolean debug = true;
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			e.printStackTrace();
 		}
-		ActionsBeforeActivation.sleep(500);
+		ActionsBeforeActivation.sleep(100);
 
 	}		
 	
-	public static void runTestWithAdt() {
-		System.out.println( "Run tests with adt checks" );
+	public static void runTestWithAtc() {
+		System.out.println( "Run tests with ATC checks" );
 
 		try {
 			ProjectUtility.service.executeCommand("com.sap.adt.atc.ui.launchShortcut.run", null);
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			e.printStackTrace();
 		}
-		ActionsBeforeActivation.sleep(500);
+		ActionsBeforeActivation.sleep(100);
 
 	}	
 	

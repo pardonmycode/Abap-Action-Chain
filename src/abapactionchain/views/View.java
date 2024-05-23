@@ -52,7 +52,6 @@ import com.sap.adt.tools.core.ui.editors.IAdtFormEditor;
 @SuppressWarnings({ "restriction", "unused" })
 public class View extends ViewPart implements ILinkedWithEditorView  {
 	static boolean debug = true;
-	public GridLayout layout;
 	private Label myLabelInView;
 	public static ArrayList<Button> ButtonsList = new ArrayList<>();
 	public static LinkedObject linkedObject = new LinkedObject(null, null, null);
@@ -67,7 +66,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 	
 	private static Composite container;
 	
-	public static ArrayList<String> btn_str_list = new ArrayList<>() {
+	public static ArrayList<String> btn_before_activation = new ArrayList<>() {
 		public static final long serialVersionUID = 12L;
 		{
 			add("Use Abap Cleaner");
@@ -75,13 +74,18 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 //			add("Save all files");
 			add("Activate current File");
 //			add("Activate all files");
-			add("Run Test");
-			add("Run Test with coverage");
-			add("Run Test with adt checks");
 		}
 	};
 	
-
+	public static ArrayList<String> btn_after_activation = new ArrayList<>() {
+		public static final long serialVersionUID = 12L;
+		{
+			add("Run Test");
+			add("Run Test with coverage");
+			add("Run Test with ATC checks");
+		}
+	};
+	
 	
 	@PostConstruct
 	public void createPartControl(Composite parent) {
@@ -97,18 +101,31 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 
 		
 		myLabelInView = new Label(parent, SWT.None);
-		myLabelInView.setText("Enable your Chain Actions. This Actions starts on saving a file");
+		myLabelInView.setText("Enable your Chain Actions.");
 		parent.layout();
 		
 		
 		
 
 		container = new Composite(parent, SWT.None);
-		layout = new GridLayout();
-		layout.numColumns = 1;
-		layout.marginLeft = 10;
-		container.setLayout(layout);
-		createButtons(container);
+		GridLayout layoutBeforeAct = new GridLayout();
+		layoutBeforeAct.numColumns = 1;
+		layoutBeforeAct.marginLeft = 10;
+		layoutBeforeAct.marginBottom = 10;
+		container.setLayout(layoutBeforeAct);
+
+		Label LabelBeforeAct = new Label(parent, SWT.None);
+		LabelBeforeAct.setText("This Actions below starts on saving a file");
+		parent.layout();
+
+		createButtonsIn(container, btn_before_activation);
+
+		
+		
+		
+		createButtonsIn(container, btn_after_activation);
+		
+		
 		container.layout();
 
 		
@@ -218,7 +235,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		workbenchWindow.getPartService().addPartListener(this.linkWithEditorPartListener);
 	}
 	
-	public void createButtons(Composite container) {
+	public void createButtonsIn(Composite container, ArrayList<String> btn_str_list) {
     	for (String text : btn_str_list ) {
 				Button mybtn = new Button(container, SWT.CHECK);
 				 mybtn.setText(text);
@@ -252,8 +269,8 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 	}
 
 	private void update() {
-		container.layout();
-		container.update();
+		parent.layout();
+		parent.update();
 	}
 	
 
@@ -262,11 +279,11 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 	public void dispose() {
 		getSite().getPage().removePartListener(this.linkWithEditorPartListener);
 		removeCommandListener();
-		for (Control ctrl : container.getChildren()) {
+		for (Control ctrl : parent.getChildren()) {
 			System.out.println( "Dispose" );
 			ctrl.dispose();
 		}
-		container = null;
+		parent = null;
 		super.dispose();
 	}
 
