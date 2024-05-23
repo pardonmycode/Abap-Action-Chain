@@ -40,6 +40,10 @@ public class CommandListener implements IExecutionListener {
 	@Override
 	public void preExecute(String commandId, ExecutionEvent event) {
 		// TODO Auto-generated method stub
+		boolean debug = true;
+		if (debug) {
+			System.out.println( event );
+		}
 
 	}
 

@@ -28,33 +28,6 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({ "restriction",  })
 public class ActionsBeforeActivation extends AbstractHandler   {
 
-
-	
-	public static ArrayList<String> commands = new ArrayList<>() {
-		public static final long serialVersionUID = 12L;
-		{
-			add("org.eclipse.ui.file.save");
-//			add("org.eclipse.ui.file.saveAll");
-			add("com.sap.adt.abapcleaner.cleanup.automatic");
-			add("com.sap.adt.activation.ui.command.singleActivation");
-//			add("com.sap.adt.activation.ui.command.multiActivation");
-			add("com.sap.adt.tool.abap.unit.launchShortcut.run");
-			add("com.sap.adt.tool.abap.unit.launchShortcutWithCoverage.coverage");
-			add("com.sap.adt.atc.ui.launchShortcut.run");
-		}
-	};
-
-	
-	static Map<String, List<String> > map_func_afterCommands
-	= new HashMap<String, List<String> >(){
-		private static final long serialVersionUID = 13L;
-		{
-
-			for(int k = View.btn_str_list.size()-1; k > -1; k--) {
-					put(View.btn_str_list.get(k), commands.subList(0,k+1) );
-			}
-		}
-	};
 	
 
 	

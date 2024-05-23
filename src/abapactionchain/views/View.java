@@ -41,6 +41,7 @@ import abapactionchain.views.LinkedObject;
 import abapactionchain.views.CommandListener;
 import abapactionchain.views.View;
 
+import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourceMultiPageEditor;
 import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourcePage;
 import com.sap.adt.tools.abapsource.ui.sources.editors.IAbapSourcePage;
 import com.sap.adt.tools.core.ui.editors.IAdtFormEditor;
@@ -97,6 +98,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		
 		GridLayout toplayout = new GridLayout();		
 		toplayout.numColumns = 1;
+		toplayout.marginTop = 2;
 		parent.setLayout(toplayout);
 
 		
@@ -107,26 +109,38 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		
 		
 
-		container = new Composite(parent, SWT.None);
+		//BeforeAct
+		Composite containerBeforeAct = new Composite(parent, SWT.None);
 		GridLayout layoutBeforeAct = new GridLayout();
 		layoutBeforeAct.numColumns = 1;
 		layoutBeforeAct.marginLeft = 10;
-		layoutBeforeAct.marginBottom = 10;
-		container.setLayout(layoutBeforeAct);
+		layoutBeforeAct.marginBottom = 12;
+		containerBeforeAct.setLayout(layoutBeforeAct);
 
-		Label LabelBeforeAct = new Label(parent, SWT.None);
+		Label LabelBeforeAct = new Label(containerBeforeAct, SWT.None);
 		LabelBeforeAct.setText("This Actions below starts on saving a file");
 		parent.layout();
 
-		createButtonsIn(container, btn_before_activation);
+		createButtonsIn(containerBeforeAct, btn_before_activation);
+		containerBeforeAct.layout();
+		
+		
+		
+		//AfterAct
+		Composite containerAfterAct = new Composite(parent, SWT.None);
+		GridLayout layoutAfterAct = new GridLayout();
+		layoutAfterAct.numColumns = 1;
+		layoutAfterAct.marginLeft = 10;
+		layoutAfterAct.marginBottom = 12;
+		containerAfterAct.setLayout(layoutAfterAct);
 
-		
-		
-		
-		createButtonsIn(container, btn_after_activation);
-		
-		
-		container.layout();
+		Label LabelAfterAct = new Label(containerAfterAct, SWT.None);
+		LabelAfterAct.setText(""" 
+				This Actions below starts on activating a file""");
+		parent.layout();
+
+		createButtonsIn(containerAfterAct, btn_after_activation);;
+		containerAfterAct.layout();
 
 		
 		
@@ -215,8 +229,9 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		
 	
 	public static IAbapSourcePage getSourcPage() {
-		IAdtFormEditor edit = getEditor();
-		IAbapSourcePage sourcePage = edit.getAdapter(AbapSourcePage.class);
+		IAdtFormEditor edit 	  	= getEditor();
+		IAbapSourcePage sourcePage 	= edit.getAdapter(AbapSourcePage.class);
+		
 		if(sourcePage == null) {
 			view.reload();
 			edit = getEditor();
