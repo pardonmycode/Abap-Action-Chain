@@ -115,13 +115,13 @@ public class ActionsBeforeActivation extends AbstractHandler   {
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			e.printStackTrace();
 		}
-			sleep(100); 
+			sleep(10); 
 	}
 
 	public static void saveCurrentFile(IAbapSourcePage sourcepage, IProgressMonitor monitor) {
 			System.out.println( "Start save currentFile" );
 			sourcepage.doSave(monitor);      
-			sleep(100);
+			sleep(50);
 	}
 	
 

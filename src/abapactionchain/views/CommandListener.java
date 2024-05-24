@@ -31,7 +31,15 @@ public class CommandListener implements IExecutionListener {
 			}
 		
 		case "org.eclipse.ui.file.save": {
-				ActionsBeforeActivation.runActionChain(commandId);	
+		
+			boolean debug = true;
+			if (debug) {
+				System.out.println(this.getClass().getSimpleName());
+				System.out.println( commandId );
+				System.out.println( returnValue );
+			}
+				
+			ActionsBeforeActivation.runActionChain(commandId);	
 			}
 		}
 	}
@@ -42,9 +50,11 @@ public class CommandListener implements IExecutionListener {
 		// TODO Auto-generated method stub
 		boolean debug = true;
 		if (debug) {
+			System.out.println(this.getClass().getSimpleName());
+			System.out.println("preExecute");
 			System.out.println( event );
+			System.out.println(  );
 		}
-
 	}
 
 }

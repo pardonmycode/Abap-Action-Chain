@@ -113,6 +113,7 @@ public class ProjectUtility {
 			IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 					.getActiveEditor();
 			System.out.println("  getActiveEditor in ProjectUtility.java : " + activeEditor );
+			
 			return activeEditor;
 		} catch (Exception e) {
 				System.out.println(e);
@@ -188,7 +189,6 @@ public class ProjectUtility {
 
 
 	public static void runObject(final IProject project, final IAdtObjectReference adtObjectRef) {
-
 		AdtSapGuiEditorUtilityFactory.createSapGuiEditorUtility().openEditorForObject(project, adtObjectRef, true,
 				WorkbenchAction.EXECUTE.toString(), null, Collections.<String, String>emptyMap());
 	}
