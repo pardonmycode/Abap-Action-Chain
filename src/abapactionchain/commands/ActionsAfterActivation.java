@@ -17,6 +17,8 @@ import abapactionchain.utils.ProjectUtility;
 import abapactionchain.views.View;
 
 
+import com.sap.adt.activation.ui.PostActivationNotifier ;
+
 @SuppressWarnings("restriction")
 public class ActionsAfterActivation implements IActivationSuccessListener {
 boolean debug = true;
@@ -35,6 +37,7 @@ boolean debug = true;
 
 				if("Run Test with coverage" == btn.getText()) {
 					runTestWithCoverage();
+					
 					
 				}
 

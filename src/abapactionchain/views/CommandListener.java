@@ -4,15 +4,17 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
-
 import abapactionchain.commands.ActionsBeforeActivation;
 
-public class CommandListener implements IExecutionListener {
 
+
+
+public class CommandListener implements IExecutionListener {
+boolean debug = true;
 	@Override
 	public void notHandled(String commandId, NotHandledException exception) {
 		// TODO Auto-generated method stub
-
+	
 	}
 
 	@Override
@@ -25,6 +27,11 @@ public class CommandListener implements IExecutionListener {
 	public void postExecuteSuccess(String commandId, Object returnValue) {
 
 		
+		if (debug) {
+			System.out.println(this.getClass().getSimpleName());
+			System.out.println( "commandId:" + commandId );
+		}
+		
 
 		switch (commandId) {
 		case "org.eclipse.ui.file.saveAll": {
@@ -32,7 +39,7 @@ public class CommandListener implements IExecutionListener {
 		
 		case "org.eclipse.ui.file.save": {
 		
-			boolean debug = true;
+			
 			if (debug) {
 				System.out.println(this.getClass().getSimpleName());
 				System.out.println( commandId );
