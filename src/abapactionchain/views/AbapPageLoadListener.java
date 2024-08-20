@@ -26,6 +26,7 @@ public class AbapPageLoadListener extends AbstractAbapSourcePageExtensionProcess
 		try {
 			for (IAbapPageLoadListener listener : listeners) {
 				listener.pageLoaded(sourcePage);
+			
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString()); 

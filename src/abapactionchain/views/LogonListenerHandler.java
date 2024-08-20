@@ -21,6 +21,7 @@ public class LogonListenerHandler implements ILogonListener {
 			ProjectUtility.pgmoni = progress;
 			destinationListenerInfo.add(destId);
 			AbapPageLoadListener.addListener(new AbapPageLoadListenerHandler(destId));
+		
 		}
 
 	}

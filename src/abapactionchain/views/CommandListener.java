@@ -8,13 +8,16 @@ import abapactionchain.commands.ActionsBeforeActivation;
 
 
 
-
 public class CommandListener implements IExecutionListener {
-boolean debug = true;
+boolean debug = false;
 	@Override
 	public void notHandled(String commandId, NotHandledException exception) {
 		// TODO Auto-generated method stub
-	
+		
+		if (debug) {
+			System.out.println(this.getClass().getSimpleName());
+			System.out.println( "nothandled commandId:" + commandId + "return:" + exception);
+		}
 	}
 
 	@Override
@@ -26,31 +29,15 @@ boolean debug = true;
 	@Override
 	public void postExecuteSuccess(String commandId, Object returnValue) {
 
-		
-		if (debug) {
-			System.out.println(this.getClass().getSimpleName());
-			System.out.println( "commandId:" + commandId );
-		}
-		
-
 		switch (commandId) {
-		case "org.eclipse.ui.file.saveAll": {
-			}
 		
 		case "org.eclipse.ui.file.save": {
-		
 			
-			if (debug) {
-				System.out.println(this.getClass().getSimpleName());
-				System.out.println( commandId );
-				System.out.println( returnValue );
-			}
-				
 			ActionsBeforeActivation.runActionChain(commandId);	
 			}
-		}
-	}
+		}	
 
+	}
 
 	@Override
 	public void preExecute(String commandId, ExecutionEvent event) {
@@ -62,6 +49,10 @@ boolean debug = true;
 			System.out.println( event );
 			System.out.println(  );
 		}
+	
+		
+
+	
 	}
 
 }

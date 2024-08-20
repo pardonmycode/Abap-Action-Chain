@@ -4,12 +4,17 @@ import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.awt.TextField;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.IParameter;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
@@ -20,6 +25,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.internal.Platform;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -32,6 +38,7 @@ import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.internal.commands.SlaveCommandService;
 import org.eclipse.ui.part.ViewPart;
 
 import abapactionchain.utils.ProjectUtility;
@@ -41,6 +48,9 @@ import abapactionchain.views.LinkedObject;
 import abapactionchain.views.CommandListener;
 import abapactionchain.views.View;
 
+import com.sap.adt.communication.message.AdtRequestFactory;
+import com.sap.adt.compatibility.model.templatelink.AdtTemplateLinkXmlUtil;
+import com.sap.adt.project.AdtProjectPlugin;
 import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourceMultiPageEditor;
 import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourcePage;
 import com.sap.adt.tools.abapsource.ui.sources.editors.IAbapSourcePage;
@@ -72,9 +82,10 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		{
 			add("Use Abap Cleaner");
 			add("Save current file");
-//			add("Save all files");
-			add("Activate current File");
-//			add("Activate all files");
+			add("Activate current file");
+			add("Save all files");
+			add("Activate all files");
+//			add("test");
 		}
 	};
 	
@@ -84,6 +95,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 			add("Run Test");
 			add("Run Test with coverage");
 			add("Run Test with ATC checks");
+//			add("Run last Test");
 		}
 	};
 	
@@ -143,6 +155,8 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		containerAfterAct.layout();
 
 		
+
+
 		
 		setLinkingWithEditor();
 		linkedObject = ProjectUtility.getObjectFromEditor();
@@ -225,6 +239,9 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 	private void addCommandListener() {
 		ICommandService commandService = PlatformUI.getWorkbench().getService(ICommandService.class);
 		commandService.addExecutionListener(commandListener);
+		
+		
+
 	}
 		
 	
@@ -304,6 +321,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 
 	private void removeCommandListener() {
 		ICommandService commandService = PlatformUI.getWorkbench().getService(ICommandService.class);
+		
 		commandService.removeExecutionListener(commandListener);
 	}
 

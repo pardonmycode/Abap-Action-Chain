@@ -54,6 +54,12 @@
             name="abapactionchain.views.AbapPageLoadListener">
       </class>
    </extension>
+      <extension
+            point="com.sap.adt.communication.communicationListeners">
+      <cycleFinished
+            class="abapactionchain.connections.CommunicationListener">
+      </cycleFinished>
+      </extension>
    
      
 
