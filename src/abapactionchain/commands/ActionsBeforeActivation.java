@@ -19,22 +19,34 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Adapters;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.ui.progress.UIJob;
 
+import com.sap.adt.activation.ActivationException;
 import com.sap.adt.activation.CheckException;
 import com.sap.adt.activation.checklist.MessageList;
 import com.sap.adt.activation.internal.AdtActivationServiceFactory;
+import com.sap.adt.activation.model.inactiveObjects.IInactiveCtsObject;
+import com.sap.adt.activation.model.inactiveObjects.IInactiveCtsObjectList;
+import com.sap.adt.communication.AdtCommunicationFrameworkPlugin;
 import com.sap.adt.communication.content.AdtContentHandlingFactory;
 import com.sap.adt.communication.content.AdtMediaType;
 import com.sap.adt.communication.content.ContentHandlerException;
 import com.sap.adt.communication.content.IContentHandlingService;
+import com.sap.adt.communication.log.ICommunicationLog;
+import com.sap.adt.communication.log.ILogEntry;
 import com.sap.adt.communication.message.AdtRequestFactory;
 import com.sap.adt.communication.message.IMessageBody;
 import com.sap.adt.communication.message.IRequest;
@@ -50,7 +62,9 @@ import com.sap.adt.communication.session.IStatelessSystemSession;
 import com.sap.adt.communication.session.ISystemSessionFactory;
 import com.sap.adt.compatibility.discovery.AdtDiscoveryFactory;
 import com.sap.adt.project.AdtCoreProjectServiceFactory;
+import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourcePage;
 import com.sap.adt.tools.abapsource.ui.sources.editors.IAbapSourcePage;
+import com.sap.adt.tools.core.AdtObjectReference;
 import com.sap.adt.tools.core.IAdtObjectReference;
 import com.sap.adt.tools.core.content.AdtStaxContentHandlerUtility;
 import com.sap.adt.tools.core.ui.editors.IAdtFormEditor;
@@ -67,6 +81,7 @@ import com.sap.conn.jco.JCoRequest;
 import abapactionchain.utils.ProjectUtility;
 import abapactionchain.views.View;
 import com.sap.adt.tools.core.model.adtcore.IAdtObject;
+import com.sap.adt.tools.core.model.adtcore.util.AdtCoreResourceFactoryImpl;
 
 @SuppressWarnings({ "restriction", })
 public class ActionsBeforeActivation {
@@ -83,8 +98,8 @@ public class ActionsBeforeActivation {
 							continue;
 						}
 
-						if (checkSyntax(View.getSourcPage(),monitor) != null) {
-							break; 
+						if (checkSyntax(View.getSourcPage(), monitor) != null) {
+							break;
 						}
 
 						if ("Save current file" == btn.getText()) {
@@ -95,7 +110,6 @@ public class ActionsBeforeActivation {
 							saveAllFile();
 							continue;
 						}
-
 
 						if ("Use Abap Cleaner" == btn.getText()) {
 							useAbapCleaner();
@@ -127,6 +141,11 @@ public class ActionsBeforeActivation {
 
 	public static MessageList checkSyntax(IAbapSourcePage sourcepage, IProgressMonitor monitor) {
 		MessageList msg = null;
+
+		if (sourcepage.getFile().getLocationURI().toString().contains("existiert nicht")) {
+			return null;
+		}
+
 		try {
 			IAdtFormEditor editor = View.view.getEditor();
 			IAdtObjectReference adt = ProjectUtility.getAdtObjectReference(editor); // editor.getAdapter(IAdtObjectReference.class);
@@ -135,7 +154,8 @@ public class ActionsBeforeActivation {
 			adts.add(adt);
 			msg = ProjectUtility.activationService.check(adts, monitor);
 			
-
+			print(msg.getProperties());
+			
 		} catch (CheckException e) {
 			e.printStackTrace();
 		}
@@ -156,7 +176,7 @@ public class ActionsBeforeActivation {
 
 		System.out.println("Start save currentFile");
 		sourcepage.doSave(monitor);
-		sleep(50);
+		sleep(10);
 	}
 
 	public static void saveAllFile() {
@@ -182,26 +202,81 @@ public class ActionsBeforeActivation {
 	}
 
 	public static void activateAllFiles(IProgressMonitor monitor) {
-		MessageList msg = null;
+		print("activateAllFiles");
+		IInactiveCtsObjectList inactives = ProjectUtility.activationService.getInactiveCtsObjects(monitor);
+
+//		IInactiveCtsObject  inactive = inactives.getEntry().get(0) ;
+
+//		inactive.getObject().
+//		EOperation op = inactive.getObject().getRef().
+
+		ICommunicationLog<ILogEntry> logs = AdtCommunicationFrameworkPlugin.getDefault().getCommunicationLogFactory()
+				.getRestCommunicationLog();
+//		MessageList msg = null;
+		List<IAdtObjectReference> adts = new ArrayList<IAdtObjectReference>();
 		try {
 			IAdtFormEditor editor = View.view.getEditor();
 			IAdtObjectReference adt = ProjectUtility.getAdtObjectReference(editor); // editor.getAdapter(IAdtObjectReference.class);
 
-			List<IAdtObjectReference> adts = new ArrayList<IAdtObjectReference>();
 			adts.add(adt);
-			msg = ProjectUtility.activationService.check(adts, monitor);
+			ProjectUtility.activationService.check(adts, monitor);
 
 		} catch (CheckException e) {
 			e.printStackTrace();
 		}
-		
+
+		print("for inactive:");
+		for (IInactiveCtsObject inactive : inactives.getEntry()) {
+			inactive.getTransport().getRef().getUri();
+//			com.sap.adt.tools.core.model.adtcore.IAdtObjectReference adt_inactive = inactive.getObject().getRef() ;
+//			inactive.eCrossReferences().
+
+//			IPath in_path = inactive.getObject().getRef().getUri();
+//			IFile in_file = new File( ,ResourcesPlugin.getWorkspace() );
+
+			System.out.println(inactive.eCrossReferences());
+			System.out.println(inactive.eAllContents());
+			System.out.println(inactive.eContainer());
+			System.out.println(inactive.eContainer().eClass());
+
+			System.out.println(inactive.eResource().isModified());
+			System.out.println(inactive.eResource().isLoaded());
+//			System.out.print( inactive.eResource().getResourceSet().getLoadOptions() );
+
+			for (ILogEntry log : logs.getLogEntries()) {
+				print(log.getCommunicationData().toString());
+				print(log.getRequest().getRequestLine());
+			}
+
+			print("end");
+		}
+
+		List<IFile> files = ProjectUtility.getAllFilesFromEditor(View.view.getEditor());
+		List<IAdtObjectReference> adts_in = new ArrayList<IAdtObjectReference>();
+		MessageList msg = null;
+		for (IFile iFile : files) {
+			print(iFile);
+			adts_in.add(Adapters.adapt((Object) iFile, IAdtObjectReference.class));
+		}
+		try {
+			msg = ProjectUtility.activationService.check(adts, monitor);
+		} catch (CheckException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (msg == null) {
+			try {
+				ProjectUtility.activationService.activate(adts_in);
+//				ProjectUtility.activationService.
+				// need to unlock the file and then it can be activated
+			} catch (ActivationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 
-
-
-
-	
 	public static void sleep(int milliseconds) {
 		try {
 			TimeUnit.MILLISECONDS.sleep(milliseconds);
@@ -211,33 +286,31 @@ public class ActionsBeforeActivation {
 	}
 
 	public static void print(Object obj) {
-		
-			if (obj != null) {
-				if (obj.getClass() != null) {
-					if (obj.getClass().getSimpleName() != null) {
-						System.out.print(obj.getClass().getSimpleName());
 
-						if (obj.getClass().getEnclosingMethod() != null) {
-							System.out.print("   method: ");
-							System.out.print(obj.getClass().getEnclosingMethod().getName());
-							System.out.print("   result: ");
+		if (obj != null) {
+			if (obj.getClass() != null) {
+				if (obj.getClass().getSimpleName() != null) {
+					System.out.print(obj.getClass().getSimpleName());
 
-						}
+					if (obj.getClass().getEnclosingMethod() != null) {
+						System.out.print("   method: ");
+						System.out.print(obj.getClass().getEnclosingMethod().getName());
+						System.out.print("   result: ");
+
 					}
 				}
-
-				System.out.println(obj);
-
-			}else {
-				System.out.println("obj is null");
 			}
 
-		
+			System.out.println(obj);
+
+		} else {
+			System.out.println("obj is null");
+		}
 
 	}
-	
+
 	public static void print(String obj) {
-		System.out.print(obj);
+		System.out.println(obj);
 	}
-	
+
 }
