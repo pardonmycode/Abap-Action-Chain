@@ -69,16 +69,11 @@ public class ProjectUtility {
 			ISelection adtSelection = window.getSelectionService().getSelection();
 			IProject project = ProjectUtil.getActiveAdtCoreProject(adtSelection, null, null, null);
 			service = window.getService(IHandlerService.class);
-		
+			activationServiceFactory = AdtActivationPlugin.getDefault().getActivationServiceFactory();
+			activationService = activationServiceFactory.createActivationService(project.getName());
 			
 			//Activate stuff
-			
-//			
-//
-//			activationServiceFactory = AdtActivationPlugin.getDefault().getActivationServiceFactory();
-//			activationService = activationServiceFactory.createActivationService(project.getName());
 //			newInactiveCtsObjectList = activationService.getInactiveCtsObjects(pgmoni);
-//			
 //			IInactiveCtsObject neg = newInactiveCtsObjectList.getEntry().get(1);
 
 			return project;
