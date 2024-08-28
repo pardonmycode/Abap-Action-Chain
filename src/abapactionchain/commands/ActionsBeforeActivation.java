@@ -154,7 +154,6 @@ public class ActionsBeforeActivation {
 			adts.add(adt);
 			msg = ProjectUtility.activationService.check(adts, monitor);
 			
-			print(msg.getProperties());
 			
 		} catch (CheckException e) {
 			e.printStackTrace();
