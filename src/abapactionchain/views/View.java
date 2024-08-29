@@ -84,7 +84,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 			add("Save current file");
 			add("Activate current file");
 			add("Save all files");
-			add("Activate all files");
+//			add("Activate all files");
 //			add("test");
 		}
 	};
