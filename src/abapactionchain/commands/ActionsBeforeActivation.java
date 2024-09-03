@@ -142,6 +142,9 @@ public class ActionsBeforeActivation {
 	public static MessageList checkSyntax(IAbapSourcePage sourcepage, IProgressMonitor monitor) {
 		MessageList msg = null;
 
+		if(sourcepage == null) {
+			return null;
+		}
 		if (sourcepage.getFile().getLocationURI().toString().contains("existiert nicht")) {
 			return null;
 		}
