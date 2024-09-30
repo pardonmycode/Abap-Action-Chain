@@ -42,7 +42,7 @@ boolean debug = false;
 	@Override
 	public void preExecute(String commandId, ExecutionEvent event) {
 		// TODO Auto-generated method stub
-		boolean debug = true;
+		
 		if (debug) {
 			System.out.println(this.getClass().getSimpleName());
 			System.out.println("preExecute");

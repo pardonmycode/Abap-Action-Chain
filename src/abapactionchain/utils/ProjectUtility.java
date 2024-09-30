@@ -49,10 +49,8 @@ import com.sap.adt.tools.core.ui.editors.IAdtFormEditor;
 import abapactionchain.views.LinkedObject;
 import abapactionchain.views.View;
 
+import com.sap.adt.communication.AdtCommunicationFrameworkPlugin;
 
-
-
-import			com.sap.adt.communication.AdtCommunicationFrameworkPlugin;
 @SuppressWarnings({ "restriction" })
 public class ProjectUtility {
 	public static IProgressMonitor pgmoni;
@@ -60,7 +58,6 @@ public class ProjectUtility {
 	public static IActivationServiceFactory activationServiceFactory;
 	public static IActivationService activationService;
 	public static IInactiveCtsObjectList newInactiveCtsObjectList;
-	
 
 	public static IProject getActiveAdtProject() {
 		try {
@@ -71,8 +68,8 @@ public class ProjectUtility {
 			service = window.getService(IHandlerService.class);
 			activationServiceFactory = AdtActivationPlugin.getDefault().getActivationServiceFactory();
 			activationService = activationServiceFactory.createActivationService(project.getName());
-			
-			//Activate stuff
+
+			// Activate stuff
 //			newInactiveCtsObjectList = activationService.getInactiveCtsObjects(pgmoni);
 //			IInactiveCtsObject neg = newInactiveCtsObjectList.getEntry().get(1);
 
@@ -107,7 +104,7 @@ public class ProjectUtility {
 
 			IAdtFormEditor formEditor = (IAdtFormEditor) editor;
 			IAdtObject model = formEditor.getModel();
-			
+
 			if (model != null) {
 				int count = 0;
 				IProject project = getActiveAdtProject();
@@ -134,10 +131,9 @@ public class ProjectUtility {
 	public static void ensureLoggedOn(IProject project) {
 		try {
 			IAbapProject abapProject = project.getAdapter(IAbapProject.class);
-			
+
 			AdtLogonServiceUIFactory.createLogonServiceUI().ensureLoggedOn(abapProject.getDestinationData(),
 					PlatformUI.getWorkbench().getProgressService());
-			
 
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
@@ -232,21 +228,17 @@ public class ProjectUtility {
 				}
 
 				IAuthenticationToken authenticationToken = new AuthenticationToken();
-				authenticationToken.setPassword(password); 
+				authenticationToken.setPassword(password);
 
-				
-				 status = AdtLogonServiceFactory.createLogonService().ensureLoggedOn(destinationData, authenticationToken,
-						pgmoni);
-				
+				status = AdtLogonServiceFactory.createLogonService().ensureLoggedOn(destinationData,
+						authenticationToken, pgmoni);
+
 //				 jenkinsConc(String baseUrl, String username, password,  authenticationToken);
-					
-					
-				
+
 			}
 		} catch (Exception e) {
 			ensureLoggedOn(project);
 		}
-		
 
 	}
 

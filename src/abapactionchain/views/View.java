@@ -56,27 +56,23 @@ import com.sap.adt.tools.abapsource.ui.sources.editors.AbapSourcePage;
 import com.sap.adt.tools.abapsource.ui.sources.editors.IAbapSourcePage;
 import com.sap.adt.tools.core.ui.editors.IAdtFormEditor;
 
-
-
-
-
 @SuppressWarnings({ "restriction", "unused" })
-public class View extends ViewPart implements ILinkedWithEditorView  {
+public class View extends ViewPart implements ILinkedWithEditorView {
+	static String pluginVersion = "2.1";
 	static boolean debug = true;
 	private Label myLabelInView;
 	public static ArrayList<Button> ButtonsList = new ArrayList<>();
 	public static LinkedObject linkedObject = new LinkedObject(null, null, null);
 	public static List<LinkedObject> linkedObjects = new ArrayList<>();
-	private CommandListener commandListener = new CommandListener();	
+	private CommandListener commandListener = new CommandListener();
 	protected IPartListener2 linkWithEditorPartListener = new LinkWithEditorPartListener(this);
-	
-	
+
 	public static View view;
 	private IEditorPart editor;
-	public Composite parent;	
-	
+	public Composite parent;
+
 	private static Composite container;
-	
+
 	public static ArrayList<String> btn_before_activation = new ArrayList<>() {
 		public static final long serialVersionUID = 12L;
 		{
@@ -88,7 +84,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 //			add("test");
 		}
 	};
-	
+
 	public static ArrayList<String> btn_after_activation = new ArrayList<>() {
 		public static final long serialVersionUID = 12L;
 		{
@@ -98,30 +94,25 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 //			add("Run last Test");
 		}
 	};
-	
-	
+
 	@PostConstruct
 	public void createPartControl(Composite parent) {
 		System.out.println("Enter in SampleE4View postConstruct");
 		this.parent = parent;
 		view = this;
-		
+
 		addCommandListener();
-		
-		GridLayout toplayout = new GridLayout();		
+
+		GridLayout toplayout = new GridLayout();
 		toplayout.numColumns = 1;
 		toplayout.marginTop = 2;
 		parent.setLayout(toplayout);
 
-		
 		myLabelInView = new Label(parent, SWT.None);
 		myLabelInView.setText("Enable your Chain Actions.");
 		parent.layout();
-		
-		
-		
 
-		//BeforeAct
+		// BeforeAct
 		Composite containerBeforeAct = new Composite(parent, SWT.None);
 		GridLayout layoutBeforeAct = new GridLayout();
 		layoutBeforeAct.numColumns = 1;
@@ -135,10 +126,8 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 
 		createButtonsIn(containerBeforeAct, btn_before_activation);
 		containerBeforeAct.layout();
-		
-		
-		
-		//AfterAct
+
+		// AfterAct
 		Composite containerAfterAct = new Composite(parent, SWT.None);
 		GridLayout layoutAfterAct = new GridLayout();
 		layoutAfterAct.numColumns = 1;
@@ -147,20 +136,27 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		containerAfterAct.setLayout(layoutAfterAct);
 
 		Label LabelAfterAct = new Label(containerAfterAct, SWT.None);
-		LabelAfterAct.setText(""" 
+		LabelAfterAct.setText("""
 				This Actions below starts on activating a file""");
 		parent.layout();
 
-		createButtonsIn(containerAfterAct, btn_after_activation);;
+		createButtonsIn(containerAfterAct, btn_after_activation);
 		containerAfterAct.layout();
 
 		
+		Composite containerPluginInfo = new Composite(parent, SWT.None);
+		GridLayout layoutPluginInfo = new GridLayout();
+		layoutPluginInfo.numColumns = 1;
+		layoutPluginInfo.marginLeft = 10;
+		layoutPluginInfo.marginBottom = 12;
+		containerPluginInfo.setLayout(layoutPluginInfo);
+		Label LabelPluginInfo = new Label(containerPluginInfo, SWT.None);
+		LabelPluginInfo.setText(" Version: " + pluginVersion);
+		parent.layout();
 
-
-		
 		setLinkingWithEditor();
 		linkedObject = ProjectUtility.getObjectFromEditor();
-		if(linkedObject == null) {
+		if (linkedObject == null) {
 			reload();
 		}
 	}
@@ -173,18 +169,17 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 	}
 
 	/**
-	 * This method is kept for E3 compatiblity. You can remove it if you do not
-	 * mix E3 and E4 code. <br/>
-	 * With E4 code you will set directly the selection in ESelectionService and
-	 * you do not receive a ISelection
+	 * This method is kept for E3 compatiblity. You can remove it if you do not mix
+	 * E3 and E4 code. <br/>
+	 * With E4 code you will set directly the selection in ESelectionService and you
+	 * do not receive a ISelection
 	 * 
-	 * @param s
-	 *            the selection received from JFace (E3 mode)
+	 * @param s the selection received from JFace (E3 mode)
 	 */
 	@Inject
 	@Optional
 	public void setSelection(@Named(IServiceConstants.ACTIVE_SELECTION) ISelection s) {
-		if (s==null || s.isEmpty())
+		if (s == null || s.isEmpty())
 			return;
 
 		if (s instanceof IStructuredSelection) {
@@ -197,14 +192,13 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 	}
 
 	/**
-	 * This method manages the selection of your current object. In this example
-	 * we listen to a single Object (even the ISelection already captured in E3
-	 * mode). <br/>
-	 * You should change the parameter type of your received Object to manage
-	 * your specific selection
+	 * This method manages the selection of your current object. In this example we
+	 * listen to a single Object (even the ISelection already captured in E3 mode).
+	 * <br/>
+	 * You should change the parameter type of your received Object to manage your
+	 * specific selection
 	 * 
-	 * @param o
-	 *            : the current object received
+	 * @param o : the current object received
 	 */
 	@Inject
 	@Optional
@@ -221,11 +215,11 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 
 	/**
 	 * This method manages the multiple selection of your current objects. <br/>
-	 * You should change the parameter type of your array of Objects to manage
-	 * your specific selection
+	 * You should change the parameter type of your array of Objects to manage your
+	 * specific selection
 	 * 
-	 * @param o
-	 *            : the current array of objects received in case of multiple selection
+	 * @param o : the current array of objects received in case of multiple
+	 *          selection
 	 */
 	@Inject
 	@Optional
@@ -234,22 +228,18 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		if (myLabelInView != null)
 			myLabelInView.setText("This is a multiple selection of " + selectedObjects.length + " objects");
 	}
-	
-	
+
 	private void addCommandListener() {
 		ICommandService commandService = PlatformUI.getWorkbench().getService(ICommandService.class);
 		commandService.addExecutionListener(commandListener);
-		
-		
 
 	}
-		
-	
+
 	public static IAbapSourcePage getSourcPage() {
-		IAdtFormEditor edit 	  	= getEditor();
-		IAbapSourcePage sourcePage 	= edit.getAdapter(AbapSourcePage.class);
-		
-		if(sourcePage == null) {
+		IAdtFormEditor edit = getEditor();
+		IAbapSourcePage sourcePage = edit.getAdapter(AbapSourcePage.class);
+
+		if (sourcePage == null) {
 			view.reload();
 			edit = getEditor();
 			sourcePage = edit.getAdapter(AbapSourcePage.class);
@@ -261,27 +251,26 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		IAdtFormEditor edit = linkedObject.getLinkedEditor();
 		return edit;
 	}
-	
+
 	private void setLinkingWithEditor() {
 		final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		workbenchWindow.getPartService().addPartListener(this.linkWithEditorPartListener);
 	}
-	
-	public void createButtonsIn(Composite container, ArrayList<String> btn_str_list) {
-    	for (String text : btn_str_list ) {
-				Button mybtn = new Button(container, SWT.CHECK);
-				 mybtn.setText(text);
-				 mybtn.addSelectionListener(new SelectionAdapter() {
-				        @Override
-				        public void widgetSelected(SelectionEvent event) {
-				            Button btn = (Button) event.getSource();
-				            System.out.println("Listener: "+btn+btn.getSelection());
-				        }
-				    });
-				 ButtonsList.add(mybtn);
- 		    }
-	}
 
+	public void createButtonsIn(Composite container, ArrayList<String> btn_str_list) {
+		for (String text : btn_str_list) {
+			Button mybtn = new Button(container, SWT.CHECK);
+			mybtn.setText(text);
+			mybtn.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					Button btn = (Button) event.getSource();
+					System.out.println("Listener: " + btn + btn.getSelection());
+				}
+			});
+			ButtonsList.add(mybtn);
+		}
+	}
 
 	@Override
 	public void editorActivated(IEditorPart activeEditor) {
@@ -304,15 +293,13 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		parent.layout();
 		parent.update();
 	}
-	
 
-	
 	@Override
 	public void dispose() {
 		getSite().getPage().removePartListener(this.linkWithEditorPartListener);
 		removeCommandListener();
 		for (Control ctrl : parent.getChildren()) {
-			System.out.println( "Dispose" );
+			System.out.println("Dispose");
 			ctrl.dispose();
 		}
 		parent = null;
@@ -321,7 +308,7 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 
 	private void removeCommandListener() {
 		ICommandService commandService = PlatformUI.getWorkbench().getService(ICommandService.class);
-		
+
 		commandService.removeExecutionListener(commandListener);
 	}
 
@@ -335,23 +322,18 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 		}
 	}
 
-	
-	
-	
 	public void reload() {
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					linkedObject = ProjectUtility.getObjectFromEditor();
-					update();
-				}
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				linkedObject = ProjectUtility.getObjectFromEditor();
+				update();
+			}
 
-			});
+		});
 	}
 
-	
-	
-	private void refreshObject() {
+	public void refreshObject() {
 		if ((linkedObject != null && linkedObject.isEmpty() && (isLinkingActive()))) {
 			IProject LinkedProject = ProjectUtility.getActiveAdtProject();
 
@@ -367,13 +349,5 @@ public class View extends ViewPart implements ILinkedWithEditorView  {
 			});
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

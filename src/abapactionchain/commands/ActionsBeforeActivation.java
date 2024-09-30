@@ -32,10 +32,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.UIJob;
 
 import com.sap.adt.activation.ActivationException;
 import com.sap.adt.activation.CheckException;
+import com.sap.adt.activation.checklist.Message;
 import com.sap.adt.activation.checklist.MessageList;
 import com.sap.adt.activation.internal.AdtActivationServiceFactory;
 import com.sap.adt.activation.model.inactiveObjects.IInactiveCtsObject;
@@ -101,18 +105,13 @@ public class ActionsBeforeActivation {
 						if (checkSyntax(View.getSourcPage(), monitor) != null) {
 							break;
 						}
+						if ("Use Abap Cleaner" == btn.getText()) {
+							useAbapCleaner();
+							continue;
+						}
 
 						if ("Save current file" == btn.getText()) {
 							saveCurrentFile(View.getSourcPage(), monitor);
-							continue;
-						}
-						if ("Save all files" == btn.getText()) {
-							saveAllFile();
-							continue;
-						}
-
-						if ("Use Abap Cleaner" == btn.getText()) {
-							useAbapCleaner();
 							continue;
 						}
 
@@ -121,6 +120,12 @@ public class ActionsBeforeActivation {
 							continue;
 
 						}
+
+						if ("Save all files" == btn.getText()) {
+							saveAllFile();
+							continue;
+						}
+
 						if ("Activate all files" == btn.getText()) {
 							activateAllFiles(monitor);
 							continue;
@@ -142,7 +147,9 @@ public class ActionsBeforeActivation {
 	public static MessageList checkSyntax(IAbapSourcePage sourcepage, IProgressMonitor monitor) {
 		MessageList msg = null;
 
-		if(sourcepage == null) {
+		System.out.print("Start check Syntax");
+
+		if (sourcepage == null) {
 			return null;
 		}
 		if (sourcepage.getFile().getLocationURI().toString().contains("existiert nicht")) {
@@ -150,18 +157,30 @@ public class ActionsBeforeActivation {
 		}
 
 		try {
-			IAdtFormEditor editor = View.view.getEditor();
-			IAdtObjectReference adt = ProjectUtility.getAdtObjectReference(editor); // editor.getAdapter(IAdtObjectReference.class);
 
+			IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 			List<IAdtObjectReference> adts = new ArrayList<IAdtObjectReference>();
+
+			IAdtObjectReference adt = ProjectUtility.getAdtObjectReference(editor); // editor.getAdapter(IAdtObjectReference.class);
 			adts.add(adt);
 			msg = ProjectUtility.activationService.check(adts, monitor);
-			
-			
+
 		} catch (CheckException e) {
 			e.printStackTrace();
 		}
-		return msg;
+
+		if (msg != null) {
+			System.out.print(msg);
+			for (Message message : msg.getMsg()) {
+				System.out.print("message: ");
+				System.out.print(message);
+				if (!message.getType().contains("W")) {
+					return msg;
+				}
+			}
+
+		}
+		return null;
 	}
 
 	public static void useAbapCleaner() {
@@ -171,18 +190,16 @@ public class ActionsBeforeActivation {
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			e.printStackTrace();
 		}
-		sleep(10);
+		sleep(100);
 	}
 
 	public static void saveCurrentFile(IAbapSourcePage sourcepage, IProgressMonitor monitor) {
 
-		System.out.println("Start save currentFile");
 		sourcepage.doSave(monitor);
 		sleep(10);
 	}
 
 	public static void saveAllFile() {
-		System.out.println("org.eclipse.ui.file.saveAll");
 
 		try {
 			ProjectUtility.service.executeCommand("org.eclipse.ui.file.saveAll", null);
@@ -199,12 +216,11 @@ public class ActionsBeforeActivation {
 		} catch (ExecutionException | NotDefinedException | NotEnabledException | NotHandledException e) {
 			e.printStackTrace();
 		}
-		sleep(200);
+		sleep(10);
 
 	}
 
 	public static void activateAllFiles(IProgressMonitor monitor) {
-		print("activateAllFiles");
 		IInactiveCtsObjectList inactives = ProjectUtility.activationService.getInactiveCtsObjects(monitor);
 
 //		IInactiveCtsObject  inactive = inactives.getEntry().get(0) ;
@@ -225,32 +241,6 @@ public class ActionsBeforeActivation {
 
 		} catch (CheckException e) {
 			e.printStackTrace();
-		}
-
-		print("for inactive:");
-		for (IInactiveCtsObject inactive : inactives.getEntry()) {
-			inactive.getTransport().getRef().getUri();
-//			com.sap.adt.tools.core.model.adtcore.IAdtObjectReference adt_inactive = inactive.getObject().getRef() ;
-//			inactive.eCrossReferences().
-
-//			IPath in_path = inactive.getObject().getRef().getUri();
-//			IFile in_file = new File( ,ResourcesPlugin.getWorkspace() );
-
-			System.out.println(inactive.eCrossReferences());
-			System.out.println(inactive.eAllContents());
-			System.out.println(inactive.eContainer());
-			System.out.println(inactive.eContainer().eClass());
-
-			System.out.println(inactive.eResource().isModified());
-			System.out.println(inactive.eResource().isLoaded());
-//			System.out.print( inactive.eResource().getResourceSet().getLoadOptions() );
-
-			for (ILogEntry log : logs.getLogEntries()) {
-				print(log.getCommunicationData().toString());
-				print(log.getRequest().getRequestLine());
-			}
-
-			print("end");
 		}
 
 		List<IFile> files = ProjectUtility.getAllFilesFromEditor(View.view.getEditor());
